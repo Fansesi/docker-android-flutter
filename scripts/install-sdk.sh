@@ -14,4 +14,10 @@ if [ "$INSTALL_ANDROID_SDK" == "1" ]; then
   rm /tmp/commandlinetools-linux-${CMD_LINE_VERSION}.zip && \
   yes | sdkmanager --licenses && \
   sdkmanager --install "$PACKAGE_PATH" "$ANDROID_PLATFORM_VERSION" platform-tools emulator
+
+  # reinstalling cmdline-tools and build-tools because flutter doesn't seems to 
+  # recognize the downloaded android-sdk for some reason. 
+  sdkmanager --install "cmdline-tools;latest"
+  sdkmanager --install "build-tools;$API_LEVEL.0.1"
+
 fi

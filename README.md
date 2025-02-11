@@ -4,13 +4,62 @@
 </p><br /><br />
 
 # docker-android
-> A minimal and customizable Docker image running the Android emulator as a service.
+>  Docker image for android SDK, emulator and Flutter SDK. 
 
-[![Docker Image CI](https://github.com/HQarroum/docker-android/actions/workflows/docker-image.yml/badge.svg)](https://github.com/HQarroum/docker-android/actions/workflows/docker-image.yml)
-[![DeepSource](https://deepsource.io/gh/HQarroum/docker-android.svg/?label=active+issues&show_trend=true&token=JTfGSHolIiMj0WNfv2ES0I6X)](https://deepsource.io/gh/HQarroum/docker-android/?ref=repository-badge)
-![Docker Pulls](https://img.shields.io/docker/pulls/halimqarroum/docker-android)
 
-Current version: **1.1.0**
+# My Addings
+- Customizable Flutter SDK download that is tested with the Android API. 
+- Hopefully a bit more beginner-friendly and step-by-step explanation.
+
+## Steps
+- Compose the image (for non flutter versions, please see the original repo or below):
+
+```sh
+docker compose up android-emulator-cuda-flutter
+```
+
+- Run the container:
+```sh
+docker images
+docker run -it --rm -e UID=$(id -u) -e GID=$(id -g) --device /dev/kvm -p 5555:5555 IMAGE_ID -v /your/local/path/to/workspace:/workspace
+```
+
+- If you don't have a flutter project at `/workspace` and would like to start with the template that flutter provides, you may run the `flutter-test.sh` script. Otherwise, start the emulator with:
+```sh
+cd /opt
+./start-emulator.sh &
+```
+
+- You may check the emulator device with:
+```sh
+flutter devices
+```
+
+- Assuming you've downloaded [`scrcpy`](https://github.com/Genymobile/scrcpy), now in an another terminal connect adb (Android Debug Bridge) to the exposed port:
+```sh
+./adb connect 127.0.0.1:5555
+```
+
+- Building and running the project on the docker terminal:
+```sh
+cd /workspace/PROJECT_NAME
+flutter build apk --debug
+flutter run -d emulator-5554
+```
+
+- And in the other terminal
+```sh
+./scrcpy
+```
+
+- You should be able to see the emulator with all its glory.
+
+
+## Troubleshooting
+- For cuda to work with docker, you may need to install [nvidia-container-toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html).
+
+
+# From the Original Repository
 
 ## 📋 Table of contents
 
